@@ -7,6 +7,8 @@ import (
 )
 
 func main() {
+	
+	// opens file with filename
 	filename := os.Args[1]
 	file, err := os.Open(filename)
 	if err != nil {
