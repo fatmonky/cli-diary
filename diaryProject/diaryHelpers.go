@@ -12,80 +12,85 @@ import (
 	"time"
 )
 
-// Creates a new file with filename format DDMMYYYY_HHMMhrs_entry.md, which contains diary entry
-func createEntry() {
-	date := time.Now()
+const (
+	wellPrompt    = ">>>What went well today?"
+	badPrompt     = ">>>What didn't go well today?"
+	improvePrompt = ">>>What could be improved today?"
+)
+
+func createFilename() string {
 	//create entry file
+	date := time.Now()
 	dayTimeString := fmt.Sprintf("%02d%02d%2d_%02d%02dhrs", date.Day(), date.Month(), date.Year(), date.Local().Hour(), date.Minute())
 	filename := fmt.Sprintf("%s_entry.md", dayTimeString)
+	return filename
+}
+
+// Writes diary entry, when creating the file, using the respective prompt
+func writeEntry(filename *os.File, prompt string) {
+	fmt.Println(prompt)
+	_, _ = filename.WriteString(prompt)
+	filename.WriteString("\n")
+	entryText := getUserInput()
+	_, writeErr := filename.WriteString(entryText)
+	if writeErr != nil {
+		log.Fatalf("error when writing to file: %v", writeErr)
+	}
+	filename.WriteString("\n")
+}
+
+// Creates a new diary entry with timestamped filename.
+func createEntry() {
+	clearScreen()
+	filename := createFilename()
 	file, err := os.Create(filename)
 	if err != nil {
 		log.Fatalf("error when creating file: %v", err)
 	}
 	defer file.Close()
 	// write date of entry to file
-	file.WriteString("Entry for " + dayTimeString)
+	file.WriteString("Entry for " + filename[:len(filename)-9])
 	file.WriteString("\n")
 	// get user io for entry.
 	fmt.Println("Diary entry:")
-	well := ">>>What went well today?"
-	bad := ">>>What didn't go well today?"
-	improve := ">>>What could be improved today?"
 
 	//what went well today
-	fmt.Println(well)
-	_, _ = file.WriteString(well)
-	file.WriteString("\n")
-	entryText := getUserInput()
-	reader := bufio.NewReader(os.Stdin)
-	_, writeErr := file.WriteString(entryText)
-	if writeErr != nil {
-		log.Fatalf("error when writing to file: %v", err)
-	}
-	file.WriteString("\n")
+	writeEntry(file, wellPrompt)
 	// what didn't go well
-	fmt.Println(bad)
-	_, _ = file.WriteString(bad)
-	file.WriteString("\n")
-	badEntry, _ := reader.ReadString('\n')
-	_, badWriteErr := file.WriteString(badEntry)
-	if badWriteErr != nil {
-		log.Fatalf("error when writing to file: %v", err)
-	}
-	file.WriteString("\n")
+	writeEntry(file, badPrompt)
 	// what could be improved today
-	fmt.Println(improve)
-	_, _ = file.WriteString(improve)
-	file.WriteString("\n")
-	improveEntry, _ := reader.ReadString('\n')
-	_, improveWriteErr := file.WriteString(improveEntry)
-	if improveWriteErr != nil {
-		log.Fatalf("error when writing to file: %v", err)
-	}
+	writeEntry(file, improvePrompt)
 	clearScreen()
-
+	fmt.Println("Entry created successfully!")
+	fmt.Println("========Entry=======")
+	displayEntry(filename)
+	fmt.Println("========End=======")
 }
 
 // Updates a diary entry file
 func updateEntry() {
+	clearScreen()
 	// open and update an existing entry
 	fmt.Println("Enter the filename of the entry:")
 	filename := getFilename()
-	reader := bufio.NewReader(os.Stdin)
 	file, err := os.OpenFile(filename, os.O_RDWR|os.O_APPEND, 0644)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
 	defer file.Close()
 	// get user io for entry.
-	fmt.Println("Updated diary entry:")
-	entryText, _ := reader.ReadString('\n')
+	fmt.Println(">>>Addendum:")
+	file.WriteString(">>>Addendum:\n")
+	entryText := getUserInput()
 	_, writeErr := file.WriteString(entryText)
 	if writeErr != nil {
 		log.Fatalf("error when writing to file: %v", err)
 	}
-	fmt.Println("Entry updated successfully!")
 	clearScreen()
+	fmt.Println("Entry updated successfully!")
+	fmt.Println("========Entry=======")
+	displayEntry(filename)
+	fmt.Println("========End=======")
 }
 
 // Reads and displays diary entry in command line
@@ -93,6 +98,14 @@ func readEntry() {
 	// read existing entry
 	fmt.Println("Enter the filename of the entry:")
 	filename := getFilename()
+	fmt.Println("========Entry=======")
+	displayEntry(filename)
+	fmt.Println("========End=======")
+}
+
+// Displays entry
+
+func displayEntry(filename string) {
 	file, err := os.Open(filename)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
@@ -110,7 +123,7 @@ func deleteEntry() {
 	if err != nil {
 		log.Printf("Error in deleting file: %v", err)
 	}
-	fmt.Printf("%s has been deleted", filename)
+	fmt.Printf("%s has been deleted\n", filename)
 }
 
 // Get user input
