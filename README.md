@@ -13,5 +13,8 @@ Having this CLI app serves to force me to reflect on what went well, what didn't
 
 I will dogfood this app for a while, and make iterative tweaks and improvements to the project along the way. 
 
+# Changelog
+- _30Dec24 1257hrs_: refactored codebase: main now very clean, while helper functions all put into a separate file.
+
 # TODOs
-- [ ] To refactor codebase: a lot of repetition 
+- [x] To refactor codebase: a lot of repetition 
