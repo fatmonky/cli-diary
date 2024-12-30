@@ -36,8 +36,8 @@ func createEntry() {
 	fmt.Println(well)
 	_, _ = file.WriteString(well)
 	file.WriteString("\n")
+	entryText := getUserInput()
 	reader := bufio.NewReader(os.Stdin)
-	entryText, _ := reader.ReadString('\n')
 	_, writeErr := file.WriteString(entryText)
 	if writeErr != nil {
 		log.Fatalf("error when writing to file: %v", err)
@@ -111,6 +111,13 @@ func deleteEntry() {
 		log.Printf("Error in deleting file: %v", err)
 	}
 	fmt.Printf("%s has been deleted", filename)
+}
+
+// Get user input
+func getUserInput() string {
+	reader := bufio.NewReader(os.Stdin)
+	input, _ := reader.ReadString('\n')
+	return input
 }
 
 // Clears terminal screen
