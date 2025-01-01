@@ -3,29 +3,34 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"sync"
 )
 
-var wg sync.WaitGroup
-
 func main() {
+	c := make(chan string)
 	links := []string{
 		"http://google.com",
 		"http://amazon.com",
 		"http://facebook.com",
 	}
-	wg.Add(3)
 	for _, link := range links {
-		go checkLink(link)
+		go checkLink(link, c)
+
 	}
-	wg.Wait()
+	for {
+		select {
+		case msg := <-c:
+			fmt.Println(msg)
+		default:
+			break
+		}
+	}
 }
 
-func checkLink(link string) {
+func checkLink(link string, c chan string) {
 	_, err := http.Get(link)
 	if err != nil {
-		fmt.Println(link, "might not be working!")
+		c <- link + " might not be working!"
+		return
 	}
-	fmt.Println(link, "is up!")
-	defer wg.Done()
+	c <- link + " is up!"
 }
