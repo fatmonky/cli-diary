@@ -1,6 +1,6 @@
 # About
 
-This is my practice repo, for all the practices I have done as part of completing the Udemy course https://deliveryhero.udemy.com/course/go-the-complete-developers-guide/learn/lecture/38476726#overview
+fork of diary Project, which I had written as a practice side project on 30 Dec 2024. 
 <br>
 
 # Additional - diaryProject
