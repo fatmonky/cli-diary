@@ -1,6 +1,14 @@
 # About
 
 fork of diary Project, which I had written as a practice side project on 30 Dec 2024. 
+
+This is a CLI diary, to allow me to journal (directly from the command-line) what I have done at the end of a workday.
+
+The program provides prompts: What did you accomplish today? What went well? What didn't go well? What could be improved? 
+
+The program accepts the command-line input, and outputs a timestamped entry in a Markdown file. 
+![](CLI%20Diary%20Screenshot1.png)
+![](CLI%20Diary%20Screenshot2.png)
 <br>
 
 # Additional - diaryProject
