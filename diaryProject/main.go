@@ -23,11 +23,7 @@ func main() {
 	date := time.Now()
 	fmt.Println("Command-line diary on", date.Day(), "of", date.Month(), date.Year(), ", at", date.Local().Hour(), ":", date.Local().Minute(), "hrs")
 	var option string
-	fmt.Println("Choose the following options:")
-	fmt.Println(`'c' to create new entry at this date/time
-'u' to update an existing entry
-'r' to read an existing entry
-'d' to delete an existing entry`)
+	displayOptions()
 	fmt.Scanln(&option)
 	clearScreen()
 

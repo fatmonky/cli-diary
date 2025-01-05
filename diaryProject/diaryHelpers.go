@@ -155,3 +155,12 @@ func getFilename() string {
 	filename = strings.Trim(filename, "\n")
 	return filename
 }
+
+// Displays program menu options, to create, update, read or delete existing entries.
+func displayOptions() {
+	fmt.Println("Choose the following options:")
+	fmt.Println(`'c' to create new entry at this date/time
+'u' to update an existing entry
+'r' to read an existing entry
+'d' to delete an existing entry`)
+}
