@@ -13,15 +13,16 @@ import (
 )
 
 const (
-	wellPrompt    = ">>>What went well today?"
-	badPrompt     = ">>>What didn't go well today?"
-	improvePrompt = ">>>What could be improved today?"
+	donePrompt    = ">>>What did you accomplish today? 💪"
+	wellPrompt    = ">>>What went well today? 😃"
+	badPrompt     = ">>>What didn't go well today? 😢"
+	improvePrompt = ">>>What could be improved today? 🛠️"
 )
 
 func createFilename() string {
 	//create entry file
 	date := time.Now()
-	dayTimeString := fmt.Sprintf("%02d%02d%2d_%02d%02dhrs", date.Day(), date.Month(), date.Year(), date.Local().Hour(), date.Minute())
+	dayTimeString := fmt.Sprintf("%02d%02d%02d_%02d%02dhrs", date.Year(), date.Month(), date.Day(), date.Local().Hour(), date.Minute())
 	filename := fmt.Sprintf("%s_entry.md", dayTimeString)
 	return filename
 }
@@ -54,6 +55,8 @@ func createEntry() {
 	// get user io for entry.
 	fmt.Println("Diary entry:")
 
+	//what did you accomplish today
+	writeEntry(file, donePrompt)
 	//what went well today
 	writeEntry(file, wellPrompt)
 	// what didn't go well
