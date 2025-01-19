@@ -23,7 +23,8 @@ I will dogfood this app for a while, and make iterative tweaks and improvements 
 
 # Changelog
 - _30Dec24 1257hrs_: refactored codebase: main now very clean, while helper functions all put into a separate file.
-- _30Dec24 1651hrs_: further refactored codebase, with createEntry and updateEntry helper functions further refactored into smaller, more modular helpers. Also improved the UX by adding some basic formatting e.g. displaying the Entry after the entry has been successfully created/updated. added a gitignore, so I don't accidentally upload my diary entries on Github! 
+- _30Dec24 1651hrs_: further refactored codebase, with createEntry and updateEntry helper functions further refactored into smaller, more modular helpers. Also improved the UX by adding some basic formatting e.g. displaying the Entry after the entry has been successfully created/updated. added a gitignore, so I don\'t accidentally upload my diary entries on Github! 
+
 
 # TODOs
 - [x] To refactor codebase: a lot of repetition 

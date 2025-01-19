@@ -107,7 +107,6 @@ func readEntry() {
 }
 
 // Displays entry
-
 func displayEntry(filename string) {
 	file, err := os.Open(filename)
 	if err != nil {
